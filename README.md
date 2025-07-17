@@ -1,2 +1,0 @@
-# MyApplication-3048
-
