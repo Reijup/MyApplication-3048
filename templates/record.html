@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-bottom: 20px;">
+    <button onclick="location.href='/'" class="btn">← カレンダーに戻る</button>
+</div>
+
+<h2>{{ date }} の記録</h2>
+
+<form method="POST" action="/save_record" enctype="multipart/form-data" class="record-form">
+    <input type="hidden" name="date" value="{{ date }}">
+    
+    <div class="form-group">
+        <label for="comment">コメント:</label>
+        <textarea name="comment" id="comment" placeholder="今日の出来事を記録してください...">{{ record.comment or '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="image">画像:</label>
+        <input type="file" name="image" id="image" accept="image/*">
+        {% if record.image_path %}
+            <div style="margin-top: 10px;">
+                <img src="{{ url_for('static', filename=record.image_path) }}" alt="記録画像" class="image-preview">
+                <br>
+                <button type="button" onclick="if(confirm('画像を削除しますか？')) location.href='/delete_image/{{ date }}'" class="btn btn-danger">画像を削除</button>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="form-group">
+        <div class="checkbox-group">
+            <input type="checkbox" name="notification" id="notification" {% if record.notification %}checked{% endif %}>
+            <label for="notification">通知を設定</label>
+            <input type="time" name="notification_time" value="{{ record.notification_time or '09:00' }}">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <button type="submit" class="btn">保存</button>
+        {% if record %}
+            <button type="button" onclick="if(confirm('この記録を削除しますか？')) location.href='/delete_record/{{ date }}'" class="btn btn-danger">削除</button>
+        {% endif %}
+    </div>
+</form>
+{% endblock %}
