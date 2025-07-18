@@ -459,6 +459,17 @@ def create_templates():
                     {% endif %}
                 {% endif %}
             </td>
+            <td class="calendar-day {% if day and day.has_record %}has-record{% endif %}"
+                {% if day %}onclick="location.href='/record/{{ day.date }}'" title="{{ day.comment }}"{% endif %}>
+                {% if day %}
+              <div>{{ day.day }}</div>
+               {% if day.has_record and day.comment %}
+              <div style="font-size: 0.8em; color: #555; margin-top: 5px;">
+                📝 {{ day.comment | truncate(20, True, '...') }}
+              </div>
+              {% endif %}
+              {% endif %}
+           </td>
             {% endfor %}
         </tr>
         {% endfor %}
