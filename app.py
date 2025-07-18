@@ -54,11 +54,10 @@ def allowed_file(filename):
 
 def generate_calendar_data(year, month):
     """カレンダーデータの生成（日曜日から土曜日）"""
-    # 日曜日から土曜日でカレンダーを生成
     calendar.setfirstweekday(calendar.SUNDAY)
     cal = calendar.monthcalendar(year, month)
     calendar_data = []
-    
+
     for week in cal:
         week_data = []
         for day in week:
@@ -66,14 +65,17 @@ def generate_calendar_data(year, month):
                 week_data.append(None)
             else:
                 date_str = f"{year}-{month:02d}-{day:02d}"
-                has_record = date_str in records
+                record = records.get(date_str, {})
+                has_record = bool(record)
+                comment = record.get('comment', '')
                 week_data.append({
                     'day': day,
                     'date': date_str,
-                    'has_record': has_record
+                    'has_record': has_record,
+                    'comment': comment
                 })
         calendar_data.append(week_data)
-    
+
     return calendar_data
 
 def start_notification_system():
