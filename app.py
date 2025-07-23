@@ -293,7 +293,8 @@ def create_templates():
             padding: 10px;
             text-align: center;
             vertical-align: top;
-            height: 100px;
+            height: 80px;
+            width: calc(100% / 7);
         }
         .calendar-table th {
             background-color: #f8f9fa;
@@ -318,14 +319,14 @@ def create_templates():
             margin-bottom: 5px;
         }
         .day-comment {
-            font-size: 12px;
+            font-size: 11px;
             color: #555;
-            line-height: 1.3;
+            line-height: 1.2;
             word-wrap: break-word;
             overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
         }
         .flash-messages {
             margin-bottom: 20px;
@@ -397,7 +398,38 @@ def create_templates():
         .checkbox-group {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+        }
+        .notification-toggle {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            min-width: 60px;
+            transition: background-color 0.3s;
+        }
+        .notification-toggle.active {
+            background-color: #28a745;
+        }
+        .notification-toggle:hover {
+            opacity: 0.8;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .image-section {
+            flex: 1;
+        }
+        .notification-section {
+            flex: 1;
         }
     </style>
 </head>
@@ -501,23 +533,33 @@ def create_templates():
         <textarea name="comment" id="comment" placeholder="今日の出来事を記録してください...">{{ record.comment or '' }}</textarea>
     </div>
     
-    <div class="form-group">
-        <label for="image">画像:</label>
-        <input type="file" name="image" id="image" accept="image/*">
-        {% if record.image_path %}
-            <div style="margin-top: 10px;">
-                <img src="{{ url_for('static', filename=record.image_path) }}" alt="記録画像" class="image-preview">
-                <br>
-                <button type="button" onclick="if(confirm('画像を削除しますか？')) location.href='/delete_image/{{ date }}'" class="btn btn-danger">画像を削除</button>
+    <div class="form-row">
+        <div class="form-group image-section">
+            <label for="image">画像:</label>
+            <input type="file" name="image" id="image" accept="image/*">
+            {% if record.image_path %}
+                <div style="margin-top: 10px;">
+                    <img src="{{ url_for('static', filename=record.image_path) }}" alt="記録画像" class="image-preview">
+                    <br>
+                    <button type="button" onclick="if(confirm('画像を削除しますか？')) location.href='/delete_image/{{ date }}'" class="btn btn-danger">画像を削除</button>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group notification-section">
+            <label>通知:</label>
+            <div class="checkbox-group">
+                <button type="button" id="notificationToggle" 
+                        class="notification-toggle {% if record.notification %}active{% endif %}"
+                        onclick="toggleNotification()">
+                    {% if record.notification %}ON{% else %}OFF{% endif %}
+                </button>
+                <input type="time" name="notification_time" id="notificationTime" 
+                       value="{{ record.notification_time or '09:00' }}"
+                       {% if not record.notification %}style="display:none;"{% endif %}>
+                <input type="hidden" name="notification" id="notificationHidden" 
+                       value="{% if record.notification %}on{% endif %}">
             </div>
-        {% endif %}
-    </div>
-    
-    <div class="form-group">
-        <div class="checkbox-group">
-            <input type="checkbox" name="notification" id="notification" {% if record.notification %}checked{% endif %}>
-            <label for="notification">通知を設定</label>
-            <input type="time" name="notification_time" value="{{ record.notification_time or '09:00' }}">
         </div>
     </div>
     
@@ -528,6 +570,28 @@ def create_templates():
         {% endif %}
     </div>
 </form>
+
+<script>
+function toggleNotification() {
+    const toggle = document.getElementById('notificationToggle');
+    const timeInput = document.getElementById('notificationTime');
+    const hiddenInput = document.getElementById('notificationHidden');
+    
+    if (toggle.classList.contains('active')) {
+        // ONからOFFに変更
+        toggle.classList.remove('active');
+        toggle.textContent = 'OFF';
+        timeInput.style.display = 'none';
+        hiddenInput.value = '';
+    } else {
+        // OFFからONに変更
+        toggle.classList.add('active');
+        toggle.textContent = 'ON';
+        timeInput.style.display = 'inline-block';
+        hiddenInput.value = 'on';
+    }
+}
+</script>
 {% endblock %}'''
     
     # テンプレートファイルの作成
