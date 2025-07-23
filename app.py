@@ -178,7 +178,10 @@ def save_record():
             flash('通知時刻の形式が正しくありません', 'error')
     
     flash('記録を保存しました', 'success')
-    return redirect(url_for('record_detail', date=date))
+    
+    # 保存後はカレンダーに戻る
+    date_obj = datetime.strptime(date, '%Y-%m-%d')
+    return redirect(url_for('index', year=date_obj.year, month=date_obj.month))
 
 @app.route('/delete_record/<date>')
 def delete_record(date):
@@ -203,7 +206,9 @@ def delete_record(date):
     else:
         flash('削除する記録がありません', 'error')
     
-    return redirect(url_for('index'))
+    # 削除後はカレンダーに戻る
+    date_obj = datetime.strptime(date, '%Y-%m-%d')
+    return redirect(url_for('index', year=date_obj.year, month=date_obj.month))
 
 @app.route('/delete_image/<date>')
 def delete_image(date):
@@ -431,6 +436,13 @@ def create_templates():
         .notification-section {
             flex: 1;
         }
+        .button-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .button-section .btn {
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -519,10 +531,6 @@ def create_templates():
     record_template = '''{% extends "base.html" %}
 
 {% block content %}
-<div style="margin-bottom: 20px;">
-    <button onclick="location.href='/'" class="btn">← カレンダーに戻る</button>
-</div>
-
 <h2>{{ date }} の記録</h2>
 
 <form method="POST" action="/save_record" enctype="multipart/form-data" class="record-form">
@@ -535,14 +543,15 @@ def create_templates():
     
     <div class="form-row">
         <div class="form-group image-section">
-            <label for="image">画像:</label>
-            <input type="file" name="image" id="image" accept="image/*">
+            <label>画像:</label>
             {% if record.image_path %}
                 <div style="margin-top: 10px;">
                     <img src="{{ url_for('static', filename=record.image_path) }}" alt="記録画像" class="image-preview">
                     <br>
                     <button type="button" onclick="if(confirm('画像を削除しますか？')) location.href='/delete_image/{{ date }}'" class="btn btn-danger">画像を削除</button>
                 </div>
+            {% else %}
+                <input type="file" name="image" id="image" accept="image/*">
             {% endif %}
         </div>
         
@@ -563,11 +572,12 @@ def create_templates():
         </div>
     </div>
     
-    <div class="form-group">
+    <div class="button-section">
         <button type="submit" class="btn">保存</button>
         {% if record %}
             <button type="button" onclick="if(confirm('この記録を削除しますか？')) location.href='/delete_record/{{ date }}'" class="btn btn-danger">削除</button>
         {% endif %}
+        <button type="button" onclick="location.href='/'" class="btn">カレンダーに戻る</button>
     </div>
 </form>
 
