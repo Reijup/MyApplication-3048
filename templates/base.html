@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>記録カレンダーアプリ</title>
+    <title>アプリ</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,14 +51,17 @@
             text-align: center;
             vertical-align: top;
             height: 80px;
+            width: calc(100% / 7);
         }
         .calendar-table th {
             background-color: #f8f9fa;
             font-weight: bold;
+            height: 40px;
         }
         .calendar-day {
             cursor: pointer;
             transition: background-color 0.3s;
+            position: relative;
         }
         .calendar-day:hover {
             background-color: #f0f0f0;
@@ -66,6 +69,21 @@
         .has-record {
             background-color: #e3f2fd;
             border: 2px solid #2196f3;
+        }
+        .day-number {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .day-comment {
+            font-size: 11px;
+            color: #555;
+            line-height: 1.2;
+            word-wrap: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
         }
         .flash-messages {
             margin-bottom: 20px;
@@ -137,14 +155,52 @@
         .checkbox-group {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+        }
+        .notification-toggle {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            min-width: 60px;
+            transition: background-color 0.3s;
+        }
+        .notification-toggle.active {
+            background-color: #28a745;
+        }
+        .notification-toggle:hover {
+            opacity: 0.8;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .image-section {
+            flex: 1;
+        }
+        .notification-section {
+            flex: 1;
+        }
+        .button-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .button-section .btn {
+            margin: 0 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>記録カレンダーアプリ</h1>
+            <h1>カレンダー</h1>
         </div>
         
         <div class="flash-messages">
