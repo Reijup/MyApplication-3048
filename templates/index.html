@@ -2,9 +2,9 @@
 
 {% block content %}
 <div class="calendar-nav">
-    <button onclick="location.href='?year={{ prev_year }}&month={{ prev_month }}'">← 前月</button>
+    <button onclick="location.href='?year={{ prev_year }}&month={{ prev_month }}'">← 先月</button>
     <h2>{{ year }}年 {{ month_name }}</h2>
-    <button onclick="location.href='?year={{ next_year }}&month={{ next_month }}'">次月 →</button>
+    <button onclick="location.href='?year={{ next_year }}&month={{ next_month }}'">来月 →</button>
 </div>
 
 <table class="calendar-table">
@@ -23,17 +23,15 @@
         {% for week in calendar_data %}
         <tr>
             {% for day in week %}
-           <td class="calendar-day {% if day and day.has_record %}has-record{% endif %}"
-              {% if day %}onclick="location.href='/record/{{ day.date }}'" title="{{ day.comment }}"{% endif %}>
-              {% if day %}
-              <div>{{ day.day }}</div>
-               {% if day.has_record and day.comment %}
-              <div style="font-size: 0.8em; color: #555; margin-top: 5px;">
-                📝 {{ day.comment | truncate(20, True, '...') }}
-              </div>
-              {% endif %}
-              {% endif %}
-           </td>
+            <td class="calendar-day {% if day and day.has_record %}has-record{% endif %}"
+                {% if day %}onclick="location.href='/record/{{ day.date }}'" title="{% if day.comment %}{{ day.comment }}{% else %}クリックして記録を追加{% endif %}"{% endif %}>
+                {% if day %}
+                    <div class="day-number">{{ day.day }}</div>
+                    {% if day.has_record and day.comment %}
+                        <div class="day-comment">{{ day.comment }}</div>
+                    {% endif %}
+                {% endif %}
+            </td>
             {% endfor %}
         </tr>
         {% endfor %}
