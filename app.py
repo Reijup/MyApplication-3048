@@ -52,6 +52,9 @@ def allowed_file(filename):
     """許可されたファイル拡張子かチェック"""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# 日本語の月名リスト（インデックス1〜12を使う）
+MONTH_NAMES_JP = [None, '1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+
 def generate_calendar_data(year, month):
     """カレンダーデータの生成（日曜日から土曜日）"""
     calendar.setfirstweekday(calendar.SUNDAY)
@@ -118,7 +121,7 @@ def index():
                          calendar_data=calendar_data,
                          year=year,
                          month=month,
-                         month_name=calendar.month_name[month],
+                         month_name=MONTH_NAMES_JP[month],
                          prev_year=prev_year,
                          prev_month=prev_month,
                          next_year=next_year,
