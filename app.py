@@ -251,7 +251,7 @@ def create_templates():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>記録カレンダーアプリ</title>
+    <title>アプリ</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -448,7 +448,7 @@ def create_templates():
 <body>
     <div class="container">
         <div class="header">
-            <h1>記録カレンダーアプリ</h1>
+            <h1>カレンダー</h1>
         </div>
         
         <div class="flash-messages">
