@@ -104,7 +104,7 @@ def index():
     
     calendar_data = generate_calendar_data(year, month)
     
-    # 前月・次月の計算
+    # 先月・来月の計算
     prev_month = month - 1
     prev_year = year
     if prev_month < 1:
@@ -493,9 +493,9 @@ def create_templates():
 
 {% block content %}
 <div class="calendar-nav">
-    <button onclick="location.href='?year={{ prev_year }}&month={{ prev_month }}'">← 前月</button>
+    <button onclick="location.href='?year={{ prev_year }}&month={{ prev_month }}'">← 先月</button>
     <h2>{{ year }}年 {{ month_name }}</h2>
-    <button onclick="location.href='?year={{ next_year }}&month={{ next_month }}'">次月 →</button>
+    <button onclick="location.href='?year={{ next_year }}&month={{ next_month }}'">来月 →</button>
 </div>
 
 <table class="calendar-table">
