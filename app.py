@@ -293,15 +293,17 @@ def create_templates():
             padding: 10px;
             text-align: center;
             vertical-align: top;
-            height: 80px;
+            height: 100px;
         }
         .calendar-table th {
             background-color: #f8f9fa;
             font-weight: bold;
+            height: 40px;
         }
         .calendar-day {
             cursor: pointer;
             transition: background-color 0.3s;
+            position: relative;
         }
         .calendar-day:hover {
             background-color: #f0f0f0;
@@ -309,6 +311,21 @@ def create_templates():
         .has-record {
             background-color: #e3f2fd;
             border: 2px solid #2196f3;
+        }
+        .day-number {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .day-comment {
+            font-size: 12px;
+            color: #555;
+            line-height: 1.3;
+            word-wrap: break-word;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
         }
         .flash-messages {
             margin-bottom: 20px;
@@ -424,7 +441,7 @@ def create_templates():
 </body>
 </html>'''
     
-    # index.html
+    # index.html（修正版）
     index_template = '''{% extends "base.html" %}
 
 {% block content %}
@@ -451,25 +468,14 @@ def create_templates():
         <tr>
             {% for day in week %}
             <td class="calendar-day {% if day and day.has_record %}has-record{% endif %}"
-                {% if day %}onclick="location.href='/record/{{ day.date }}'"{% endif %}>
+                {% if day %}onclick="location.href='/record/{{ day.date }}'" title="{% if day.comment %}{{ day.comment }}{% else %}クリックして記録を追加{% endif %}"{% endif %}>
                 {% if day %}
-                    {{ day.day }}
-                    {% if day.has_record %}
-                        <br><small>📝</small>
+                    <div class="day-number">{{ day.day }}</div>
+                    {% if day.has_record and day.comment %}
+                        <div class="day-comment">{{ day.comment }}</div>
                     {% endif %}
                 {% endif %}
             </td>
-            <td class="calendar-day {% if day and day.has_record %}has-record{% endif %}"
-                {% if day %}onclick="location.href='/record/{{ day.date }}'" title="{{ day.comment }}"{% endif %}>
-                {% if day %}
-              <div>{{ day.day }}</div>
-               {% if day.has_record and day.comment %}
-              <div style="font-size: 0.8em; color: #555; margin-top: 5px;">
-                📝 {{ day.comment | truncate(20, True, '...') }}
-              </div>
-              {% endif %}
-              {% endif %}
-           </td>
             {% endfor %}
         </tr>
         {% endfor %}
