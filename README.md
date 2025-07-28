@@ -9,6 +9,8 @@
 このアプリは、日付ごとにコメントや画像を記録できるカレンダーWebアプリです。
 簡単な日記・メモ・画像付きのライフログをカレンダー形式で管理することができます。
 
+リンク：[アプリ](Reijp.pythonanywhere.com)
+
 ---
 
 # 作成の背景と目的
@@ -71,11 +73,14 @@ Youtubeリンク：[](https://www.youtube.com/)
 
 ## インストール方法
 
-
+1. [アプリ内容(2025ソフトウェア工学)](https://docs.google.com/spreadsheets/d/1csqAiFNWVb1iCXUQMr2ri83zJ4li_YKsvHBG_DZmFj4/edit?gid=1496793483#gid=1496793483)にアクセスする。
+2. 下部のシートから[3041-3080]をクリックして、3041番から3080番のアプリ内容にアクセスする。
+3. このアプリの作成者である3048番の学生を探し、Github(K列)にあるURLからGithubにプッシュしたアプリのファイルにアクセスする。
+4. サイト下部の「README」から
 
 ## 使用方法
 
-
+1. 
 
 ---
 
@@ -83,3 +88,5 @@ Youtubeリンク：[](https://www.youtube.com/)
 
 名前：
 Github：Reijup
+
+---
