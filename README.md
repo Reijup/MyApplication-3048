@@ -88,5 +88,5 @@ Youtubeリンク：[](https://www.youtube.com/)
 
 # 開発者情報
 
-名前：
+名前：櫻井玲樹
 Github：Reijup
